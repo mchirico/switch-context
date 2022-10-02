@@ -4,7 +4,6 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"github.com/mchirico/switch-context/profile"
 	"os"
 
@@ -23,21 +22,23 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
+	// Run: func(cmd *cobra.Command, args []string) { },
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-
-			fmt.Printf(`
-Need 1 arguments.
-Usage: switch-context <profile> 
-
-         sc usprod 
-
-
-`)
+		if len(args) == 0 {
+			return
+		}
+		if d, err := profile.PR(args[0]); err != nil {
 			os.Exit(1)
+		} else {
+			if d != "" {
+
+				if scFile != "" {
+					os.WriteFile(scFile, []byte(d), 0644)
+				}
+			}
+
 		}
 
-		profile.PR(args[0])
 	},
 }
 
@@ -50,14 +51,16 @@ func Execute() {
 	}
 }
 
+var scFile string
+
 func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.switch-context.yaml)")
+	rootCmd.PersistentFlags().StringVar(&scFile, "f", "", "output file (default is ~/.switchcontext/switchcontext)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
