@@ -1,4 +1,7 @@
 # Binaries for programs and plugins
+
+# git rm --cached -r .idea
+.idea/
 *.exe
 *.exe~
 *.dll
