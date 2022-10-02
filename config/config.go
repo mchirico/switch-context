@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"github.com/spf13/viper"
 )
 
@@ -25,7 +26,7 @@ func New() *Config {
 	c.path = "$HOME/.switchcontext"
 	c.addPath = false
 	if err := c.readConfigFile(); err != nil {
-		panic(err)
+		fmt.Println("Error reading config in home file:", err)
 	}
 	return c
 }
