@@ -22,7 +22,7 @@ add the following snippet to your .bashrc
 ```bash
 # switch-context
 function sc() {
-    switch-context updatefile $1 ~/.switchcontext/switchcontext >/dev/null
+    switch-context  $1 -f ~/.switchcontext/switchcontext >/dev/null
     source ~/.switchcontext/switchcontext
 }
 source ~/.switchcontext/switchcontext
