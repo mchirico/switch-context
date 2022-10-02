@@ -10,11 +10,11 @@ Install Go from the [official website](https://go.dev/)
 clone this repository and build the executable. Then move it to your bin folder
 
 ```bash
-git clone https://github.com/mchirico/scontext.git
-cd scontext
+git clone https://github.com/mchirico/switch-context.git
+cd switch-context
 go mod tidy
-go build
-mv ./switch-context /usr/local/bin/switch-context
+go build -o switch-context
+mv ./switch-context ~/bin/switch-context
 ```
 
 add the following snippet to your .bashrc
