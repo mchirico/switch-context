@@ -17,13 +17,15 @@ go build
 mv ./switch-context /usr/local/bin/switch-context
 ```
 
-add the following snippet to your bash profile
+add the following snippet to your .bashrc
 
 ```bash
 function sc() {
-    switch-context $1 > /tmp/switchcontext
-    source /tmp/switchcontext
+    switch-context $1 > ~/.switchcontext/switchcontext
+    source ~/.switchcontext/switchcontext
 }
+source ~/.switchcontext/switchcontext
+
 ```
 
 This allows the environment variable changes to persist in the shell session.
