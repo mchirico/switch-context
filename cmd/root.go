@@ -4,6 +4,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+	"github.com/DaraDadachanji/switch-context/config"
+	"github.com/DaraDadachanji/switch-context/profile"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -21,7 +24,17 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) != 2 {
+			fmt.Printf(`
+Need 2 arguments.
+Usage: switch-context <profile> <profiles.yaml>
+`)
+			os.Exit(1)
+		}
+		config.SetPath(args[1])
+		profile.PR(args[0])
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
