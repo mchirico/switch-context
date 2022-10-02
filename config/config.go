@@ -24,7 +24,9 @@ func New() *Config {
 	c.configType = "yaml"
 	c.path = "$HOME/.switchcontext"
 	c.addPath = false
-
+	if err := c.readConfigFile(); err != nil {
+		panic(err)
+	}
 	return c
 }
 

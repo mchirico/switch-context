@@ -5,7 +5,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/DaraDadachanji/switch-context/config"
 	"github.com/DaraDadachanji/switch-context/profile"
 	"os"
 
@@ -25,14 +24,19 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 2 {
+		if len(args) != 1 {
+
 			fmt.Printf(`
 Need 2 arguments.
-Usage: switch-context <profile> <profiles.yaml>
+Usage: switch-context <profile> 
+
+         sc usprod 
+
+
 `)
 			os.Exit(1)
 		}
-		config.SetPath(args[1])
+
 		profile.PR(args[0])
 	},
 }
