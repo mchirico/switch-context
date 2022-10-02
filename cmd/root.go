@@ -58,9 +58,9 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&scFile, "f", "", "output file (default is ~/.switchcontext/switchcontext)")
+	rootCmd.PersistentFlags().StringVarP(&scFile, "file", "f", "", "output file (default is ~/.switchcontext/switchcontext)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
