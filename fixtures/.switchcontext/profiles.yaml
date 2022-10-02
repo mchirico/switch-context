@@ -1,0 +1,20 @@
+log:
+  filename: switchcontext.log
+  maxSize: 10
+  maxBackups: 5
+  maxAge: 30
+profiles:
+  usprod:
+    env:
+      AWS_PROFILE: default
+      AWS_REGION: us-east-1
+    kube: us-prod
+    bash:
+      PS1: '\h:\W (usp) \u\$'
+  ukprod:
+    env:
+      AWS_PROFILE: ukprod
+      AWS_REGION: eu-west-2
+    kube: uk-prod
+    bash:
+      PS1: '\h:\W (ukp) \u\$'
