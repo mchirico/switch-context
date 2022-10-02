@@ -27,7 +27,7 @@ to quickly create a Cobra application.`,
 		if len(args) != 1 {
 
 			fmt.Printf(`
-Need 2 arguments.
+Need 1 arguments.
 Usage: switch-context <profile> 
 
          sc usprod 
