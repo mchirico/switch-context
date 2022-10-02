@@ -40,6 +40,7 @@ func (p *Profile) log(msg string) {
 }
 
 func PR(key string) error {
+
 	env, err := ProfileEnvExports(key)
 	if err != nil {
 		profiles := profilesAvailable()

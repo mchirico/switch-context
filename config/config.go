@@ -61,7 +61,9 @@ func ReadConfigFile() error {
 func (c *Config) readConfigFile() error {
 	viper.SetConfigName(c.name)
 	viper.SetConfigType(c.configType)
-	viper.AddConfigPath(c.path)
+
+	viper.SetConfigFile(c.path + "/" + c.name + "." + c.configType)
+
 	if c.addPath {
 		viper.AddConfigPath(".")
 	}
