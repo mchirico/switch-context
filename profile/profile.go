@@ -39,8 +39,8 @@ func (p *Profile) log(msg string) {
 	logger.Log(msg)
 }
 
-func PR(key string) error {
-
+func PR(key string) (string, error) {
+	out := ""
 	env, err := ProfileEnvExports(key)
 	if err != nil {
 		profiles := profilesAvailable()
@@ -49,19 +49,22 @@ func PR(key string) error {
 		for _, p := range profiles {
 			fmt.Println(p)
 		}
-		return err
+		os.Exit(1)
+
 	}
 	ps1, err := ProfilePS1Exports(key)
 	if err != nil {
-		return err
+		return out, err
 	}
 	for _, v := range env {
 		fmt.Print(v)
+		out += v
 	}
 	for _, v := range ps1 {
 		fmt.Print(v)
+		out += v
 	}
-	return nil
+	return out, nil
 }
 
 func profilesAvailable() []string {

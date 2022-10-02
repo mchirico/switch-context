@@ -20,12 +20,12 @@ mv ./switch-context /usr/local/bin/switch-context
 add the following snippet to your .bashrc
 
 ```bash
+# switch-context
 function sc() {
-    switch-context $1 > ~/.switchcontext/switchcontext
+    switch-context updatefile $1 ~/.switchcontext/switchcontext >/dev/null
     source ~/.switchcontext/switchcontext
 }
 source ~/.switchcontext/switchcontext
-
 ```
 
 This allows the environment variable changes to persist in the shell session.

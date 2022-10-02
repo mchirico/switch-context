@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/spf13/viper"
+	"os"
 )
 
 var c *Config
@@ -23,7 +24,12 @@ func New() *Config {
 	c := new(Config)
 	c.name = "profiles"
 	c.configType = "yaml"
-	c.path = "$HOME/.switchcontext"
+	if dir, err := HomeDirectory(); err == nil {
+		c.path = dir + "/.switchcontext"
+	} else {
+		fmt.Println(err)
+
+	}
 	c.addPath = false
 	if err := c.readConfigFile(); err != nil {
 		fmt.Println("Error reading config in home file:", err)
@@ -103,4 +109,9 @@ func GetMap(key string) map[string]interface{} {
 
 func (c *Config) getMap(key string) map[string]interface{} {
 	return viper.GetStringMap(key)
+}
+
+func HomeDirectory() (string, error) {
+	u, err := os.UserHomeDir()
+	return u, err
 }
