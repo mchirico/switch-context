@@ -1,3 +1,4 @@
+[![Go](https://github.com/mchirico/switch-context/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/mchirico/switch-context/actions/workflows/go.yml)
 # Switch-context
 
 This project was originally created by [Dara]( https://github.com/DaraDadachanji)
