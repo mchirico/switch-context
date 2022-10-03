@@ -78,7 +78,7 @@ func profilesAvailable() []string {
 }
 
 func ProfileEnvExports(key string) ([]string, error) {
-	//p.log("ProfileEnvExports: profiles." + key + ".env")
+	p.log("ProfileEnvExports: profiles." + key + ".env")
 	return p.exports("profiles." + key + ".env")
 }
 func ProfilePS1Exports(key string) ([]string, error) {
@@ -95,8 +95,10 @@ func (p *Profile) exports(key string, opt ...string) ([]string, error) {
 
 	}
 	if len(out) == 0 {
+		p.log("No exports found for key: " + key)
 		return nil, fmt.Errorf("no profile found for %s", key)
 	}
+	p.log("exports output returned: " + key + " " + fmt.Sprintf("\n%v\n", out))
 	return out, nil
 }
 

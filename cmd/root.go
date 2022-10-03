@@ -31,7 +31,6 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		} else {
 			if d != "" {
-
 				if scFile != "" {
 					os.WriteFile(scFile, []byte(d), 0644)
 				}
