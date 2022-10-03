@@ -14,12 +14,12 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "switch-context",
 	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Long: `switch-context is a CLI tool to switch between AWS profiles
+and kubernetes contexts.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+   switch-context usprod -f ~/.switchcontext/switchcontext
+
+`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
