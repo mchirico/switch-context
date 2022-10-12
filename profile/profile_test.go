@@ -68,7 +68,14 @@ func Test_ListAllProfiles(t *testing.T) {
 		t.Errorf("Error setting path: %s", err)
 	}
 	profiles := ProfilesAvailable()
+	count := 0
 	for _, v := range profiles {
+		if v == "usprod" || v == "ukprod" {
+			count++
+		}
 		t.Logf("%s", v)
+	}
+	if count != 2 {
+		t.Errorf("Expected 2 profiles, got %d", count)
 	}
 }
