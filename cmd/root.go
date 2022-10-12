@@ -4,6 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"github.com/mchirico/switch-context/profile"
 	"os"
 
@@ -25,6 +26,13 @@ and kubernetes contexts.
 	// Run: func(cmd *cobra.Command, args []string) { },
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
+			fmt.Println("Profiles:")
+			profile.SetPath(scFile)
+
+			profiles := profile.ProfilesAvailable()
+			for _, p := range profiles {
+				fmt.Printf("  %s\n", p)
+			}
 			return
 		}
 		if d, err := profile.PR(args[0]); err != nil {
