@@ -61,3 +61,14 @@ func TestPR(t *testing.T) {
 	}
 	PR("usprod")
 }
+
+func Test_ListAllProfiles(t *testing.T) {
+	err := SetPath(fixtures.Path(".switchcontext"))
+	if err != nil {
+		t.Errorf("Error setting path: %s", err)
+	}
+	profiles := ProfilesAvailable()
+	for _, v := range profiles {
+		t.Logf("%s", v)
+	}
+}

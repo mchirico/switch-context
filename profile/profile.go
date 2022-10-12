@@ -67,6 +67,10 @@ func PR(key string) (string, error) {
 	return out, nil
 }
 
+func ProfilesAvailable() []string {
+	return profilesAvailable()
+}
+
 func profilesAvailable() []string {
 	m := config.GetMap("profiles")
 
