@@ -64,6 +64,16 @@ func PR(key string) (string, error) {
 		fmt.Print(v)
 		out += v
 	}
+
+	argo, err := ProfileArgoExports(key)
+	if err != nil {
+		return out, err
+	}
+	for _, v := range argo {
+		fmt.Print(v)
+		out += v
+	}
+
 	return out, nil
 }
 
@@ -85,15 +95,31 @@ func ProfileEnvExports(key string) ([]string, error) {
 	p.log("ProfileEnvExports: profiles." + key + ".env")
 	return p.exports("profiles." + key + ".env")
 }
+
+func ProfileArgoExports(key string) ([]string, error) {
+	p.log("ProfileArgoExports: profiles." + key + ".argo")
+	return p.exports("profiles." + key + ".argo")
+}
+
 func ProfilePS1Exports(key string) ([]string, error) {
 	return p.exports("profiles."+key+".bash", "PS1")
 }
+
 func (p *Profile) exports(key string, opt ...string) ([]string, error) {
 	out := []string{}
 	for k, v := range config.GetMap(key) {
 		if len(opt) > 0 && opt[0] == "PS1" {
 			out = append(out, fmt.Sprintf("export %s='%s'\n", strings.ToUpper(k), v))
 		} else {
+			if val, ok := v.(string); ok && val == "unset" {
+				out = append(out, fmt.Sprintf("unset %s\n", strings.ToUpper(k)))
+				continue
+			}
+
+			if val, ok := v.(bool); ok {
+				out = append(out, fmt.Sprintf("export %s=%v\n", strings.ToUpper(k), val))
+				continue
+			}
 			out = append(out, fmt.Sprintf("export %s=%q\n", strings.ToUpper(k), v))
 		}
 

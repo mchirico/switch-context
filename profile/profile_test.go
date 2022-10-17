@@ -1,9 +1,32 @@
 package profile
 
 import (
+	"fmt"
 	"github.com/mchirico/switch-context/fixtures"
 	"testing"
 )
+
+func TestProfileArgoExports(t *testing.T) {
+	err := SetPath(fixtures.Path(".switchcontext"))
+	if err != nil {
+		t.Errorf("Error setting path: %s", err)
+	}
+	e, err := ProfileArgoExports("usprod")
+	if err != nil {
+		t.Errorf("Error getting exports: %s", err)
+	}
+	found := false
+	for _, v := range e {
+		if v == "unset ARGO_TOKEN\n" {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("Expected unset ARGO_TOKEN")
+	}
+	fmt.Println(e)
+
+}
 
 func TestProfileEnvExports(t *testing.T) {
 	err := SetPath(fixtures.Path(".switchcontext"))
