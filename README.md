@@ -58,6 +58,13 @@ profiles:
     kube: us-prod
     bash:
       PS1: '\h:\W (usp) \u\$'
+    argo:
+      ARGO_BASE_HREF: 'localhost:2746'
+      ARGO_HTTP1: true
+      ARGO_NAMESPACE: "argo"
+      ARGO_SECURE: true
+      ARGO_SERVER: "workflows.reports.com:443"
+      ARGO_TOKEN: unset
   ukprod:
     env:
       AWS_PROFILE: ukprod
@@ -65,6 +72,7 @@ profiles:
     kube: uk-prod
     bash:
       PS1: '\h:\W (ukp) \u\$'
+
 ```
 
 ## Usage
