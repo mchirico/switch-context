@@ -36,6 +36,7 @@ and kubernetes contexts.
 			return
 		}
 		if d, err := profile.PR(args[0]); err != nil {
+			fmt.Println(err)
 			os.Exit(1)
 		} else {
 			if d != "" {

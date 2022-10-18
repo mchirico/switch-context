@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"errors"
 	"fmt"
 	"github.com/mchirico/switch-context/config"
 	"github.com/mchirico/switch-context/logger"
@@ -98,16 +99,20 @@ func ProfileEnvExports(key string) ([]string, error) {
 
 func ProfileArgoExports(key string) ([]string, error) {
 	p.log("ProfileArgoExports: profiles." + key + ".argo")
-	return p.exports("profiles." + key + ".argo")
+	s, _ := p.exports("profiles." + key + ".argo")
+	return s, nil
+
 }
 
 func ProfileAliasExports(key string) ([]string, error) {
 	p.log("ProfileArgoExports: profiles." + key + ".alias")
-	return p.exportsAlias("profiles." + key + ".alias")
+	s, _ := p.exportsAlias("profiles." + key + ".alias")
+	return s, nil
 }
 
 func ProfilePS1Exports(key string) ([]string, error) {
-	return p.exports("profiles."+key+".bash", "PS1")
+	s, _ := p.exports("profiles."+key+".bash", "PS1")
+	return s, nil
 }
 
 func (p *Profile) exportsAlias(key string, opt ...string) ([]string, error) {
@@ -122,7 +127,7 @@ func (p *Profile) exportsAlias(key string, opt ...string) ([]string, error) {
 	}
 	if len(out) == 0 {
 		p.log("No exports found for key: " + key)
-		return nil, fmt.Errorf("no profile found for %s", key)
+		return nil, errors.New("no profile found for " + key)
 	}
 	p.log("exports output returned: " + key + " " + fmt.Sprintf("\n%v\n", out))
 	return out, nil
@@ -149,7 +154,7 @@ func (p *Profile) exports(key string, opt ...string) ([]string, error) {
 	}
 	if len(out) == 0 {
 		p.log("No exports found for key: " + key)
-		return nil, fmt.Errorf("no profile found for %s", key)
+		return nil, errors.New("no profile found for " + key)
 	}
 	p.log("exports output returned: " + key + " " + fmt.Sprintf("\n%v\n", out))
 	return out, nil
