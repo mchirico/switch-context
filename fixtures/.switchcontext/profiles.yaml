@@ -18,6 +18,10 @@ profiles:
       ARGO_SECURE: true
       ARGO_SERVER: "workflows.reports.com:443"
       ARGO_TOKEN: unset
+    alias:
+      argo: argo --kubeconfig ~/.kube/config list --insecure-skip-verify --insecure-skip-tls-verify
+      dev: kubectl run --rm -i --tty dev --image=mchirico/ubuntu:latest --restart=Never --pod-running-timeout=6m0s -- bash -il
+      badalias: unalias
   ukprod:
     env:
       AWS_PROFILE: ukprod

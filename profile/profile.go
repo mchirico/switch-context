@@ -101,8 +101,31 @@ func ProfileArgoExports(key string) ([]string, error) {
 	return p.exports("profiles." + key + ".argo")
 }
 
+func ProfileAliasExports(key string) ([]string, error) {
+	p.log("ProfileArgoExports: profiles." + key + ".alias")
+	return p.exportsAlias("profiles." + key + ".alias")
+}
+
 func ProfilePS1Exports(key string) ([]string, error) {
 	return p.exports("profiles."+key+".bash", "PS1")
+}
+
+func (p *Profile) exportsAlias(key string, opt ...string) ([]string, error) {
+	out := []string{}
+	for k, v := range config.GetMap(key) {
+
+		if val, ok := v.(string); ok && val == "unalias" {
+			out = append(out, fmt.Sprintf("unalias %s\n", strings.ToLower(k)))
+			continue
+		}
+		out = append(out, fmt.Sprintf("alias %s='%s'\n", strings.ToLower(k), v))
+	}
+	if len(out) == 0 {
+		p.log("No exports found for key: " + key)
+		return nil, fmt.Errorf("no profile found for %s", key)
+	}
+	p.log("exports output returned: " + key + " " + fmt.Sprintf("\n%v\n", out))
+	return out, nil
 }
 
 func (p *Profile) exports(key string, opt ...string) ([]string, error) {
