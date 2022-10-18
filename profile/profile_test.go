@@ -1,10 +1,48 @@
 package profile
 
 import (
+	"bytes"
+	"encoding/gob"
 	"fmt"
 	"github.com/mchirico/switch-context/fixtures"
+	"os"
 	"testing"
 )
+
+func TestProfileAliasExports(t *testing.T) {
+	err := SetPath(fixtures.Path(".switchcontext"))
+	if err != nil {
+		t.Errorf("Error setting path: %s", err)
+	}
+	e, err := ProfileAliasExports("usprod")
+	if err != nil {
+		t.Errorf("Error getting exports: %s", err)
+	}
+
+	// Get Expected values
+	data, _ := os.ReadFile(fixtures.Path("expected_output/alias_exports.data"))
+	var buf bytes.Buffer
+	buf.Write(data)
+
+	dec := gob.NewDecoder(&buf)
+	expected := []string{}
+	_ = dec.Decode(&expected)
+
+	for _, v := range e {
+		found := false
+		for _, vv := range expected {
+			if v == vv {
+				found = true
+			}
+		}
+		if !found {
+			t.Errorf("Unexpected export: %s", v)
+		}
+	}
+
+	fmt.Println(e)
+
+}
 
 func TestProfileArgoExports(t *testing.T) {
 	err := SetPath(fixtures.Path(".switchcontext"))
@@ -15,15 +53,28 @@ func TestProfileArgoExports(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error getting exports: %s", err)
 	}
-	found := false
+
+	// Get Expected values
+	data, _ := os.ReadFile(fixtures.Path("expected_output/argo_exports.data"))
+	var buf bytes.Buffer
+	buf.Write(data)
+
+	dec := gob.NewDecoder(&buf)
+	expected := []string{}
+	_ = dec.Decode(&expected)
+
 	for _, v := range e {
-		if v == "unset ARGO_TOKEN\n" {
-			found = true
+		found := false
+		for _, vv := range expected {
+			if v == vv {
+				found = true
+			}
+		}
+		if !found {
+			t.Errorf("Unexpected export: %s", v)
 		}
 	}
-	if !found {
-		t.Errorf("Expected unset ARGO_TOKEN")
-	}
+
 	fmt.Println(e)
 
 }
