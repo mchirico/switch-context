@@ -17,7 +17,7 @@ func TestProfileAliasExportsNoFound(t *testing.T) {
 	e, err := ProfileAliasExports("ukprod")
 
 	if err != nil {
-		t.Errorf("Expected error, got nil")
+		t.Errorf("Should not have error: %s", err)
 	}
 	fmt.Println(e)
 }

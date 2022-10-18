@@ -99,19 +99,28 @@ func ProfileEnvExports(key string) ([]string, error) {
 
 func ProfileArgoExports(key string) ([]string, error) {
 	p.log("ProfileArgoExports: profiles." + key + ".argo")
-	s, _ := p.exports("profiles." + key + ".argo")
+	s, err := p.exports("profiles." + key + ".argo")
+	if err != nil {
+		return []string{}, nil
+	}
 	return s, nil
 
 }
 
 func ProfileAliasExports(key string) ([]string, error) {
 	p.log("ProfileArgoExports: profiles." + key + ".alias")
-	s, _ := p.exportsAlias("profiles." + key + ".alias")
+	s, err := p.exportsAlias("profiles." + key + ".alias")
+	if err != nil {
+		return []string{}, nil
+	}
 	return s, nil
 }
 
 func ProfilePS1Exports(key string) ([]string, error) {
-	s, _ := p.exports("profiles."+key+".bash", "PS1")
+	s, err := p.exports("profiles."+key+".bash", "PS1")
+	if err != nil {
+		return []string{}, nil
+	}
 	return s, nil
 }
 
