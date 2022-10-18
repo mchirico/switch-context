@@ -9,6 +9,19 @@ import (
 	"testing"
 )
 
+func TestProfileAliasExportsNoFound(t *testing.T) {
+	err := SetPath(fixtures.Path(".switchcontext"))
+	if err != nil {
+		t.Errorf("Error setting path: %s", err)
+	}
+	e, err := ProfileAliasExports("ukprod")
+
+	if err != nil {
+		t.Errorf("Expected error, got nil")
+	}
+	fmt.Println(e)
+}
+
 func TestProfileAliasExports(t *testing.T) {
 	err := SetPath(fixtures.Path(".switchcontext"))
 	if err != nil {
