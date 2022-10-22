@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/mchirico/switch-context/constants"
 	"github.com/mchirico/switch-context/profile"
 	"os"
 
@@ -14,13 +15,13 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "switch-context",
-	Short: "A brief description of your application",
-	Long: `switch-context is a CLI tool to switch between AWS profiles
-and kubernetes contexts.
+	Short: "switch-context is a CLI tool to switch between AWS profiles",
+	Long: fmt.Sprintf(`switch-context is a CLI tool to switch between AWS profiles
+and kubernetes contexts. (version: %s)
 
    switch-context usprod -f ~/.switchcontext/switchcontext
 
-`,
+`, constants.VERSION),
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
