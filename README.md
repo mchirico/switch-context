@@ -44,6 +44,9 @@ and a file inside named `profiles.yaml`
 
 for example:
 
+Don't use "~" as home in profiles.yaml.  Instead
+write out the full path.
+
 ```yaml
 log:
   filename: switchcontext.log
