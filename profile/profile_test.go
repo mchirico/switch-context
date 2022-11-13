@@ -164,7 +164,8 @@ func TestPR(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error setting path: %s", err)
 	}
-	PR("usprod")
+	// don't run this unless interactive
+	//PR("usprod")
 }
 
 func Test_ListAllProfiles(t *testing.T) {
