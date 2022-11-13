@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/mchirico/switch-context/config"
+	"github.com/mchirico/switch-context/file"
 	"github.com/mchirico/switch-context/logger"
 	"os"
 	"path/filepath"
@@ -75,6 +76,22 @@ func PR(key string) (string, error) {
 		out += v
 	}
 
+	files, err := ProfileFileExports(key)
+	if err != nil {
+		return out, err
+	}
+	for _, v := range files {
+		if src, ok := v["src"]; ok {
+			if dst, ok := v["dst"]; ok {
+				_, err = file.Copy(src, dst)
+				if err != nil {
+					fmt.Println("Error copying file:", err)
+				}
+			}
+		}
+
+	}
+
 	return out, nil
 }
 
@@ -124,6 +141,14 @@ func ProfilePS1Exports(key string) ([]string, error) {
 	return s, nil
 }
 
+func ProfileFileExports(key string) ([]map[string]string, error) {
+	s, err := p.exportsFile("profiles." + key + ".file")
+	if err != nil {
+		return nil, nil
+	}
+	return s, nil
+}
+
 func (p *Profile) exportsAlias(key string, opt ...string) ([]string, error) {
 	out := []string{}
 	for k, v := range config.GetMap(key) {
@@ -133,6 +158,35 @@ func (p *Profile) exportsAlias(key string, opt ...string) ([]string, error) {
 			continue
 		}
 		out = append(out, fmt.Sprintf("alias %s='%s'\n", strings.ToLower(k), v))
+	}
+	if len(out) == 0 {
+		p.log("No exports found for key: " + key)
+		return nil, errors.New("no profile found for " + key)
+	}
+	p.log("exports output returned: " + key + " " + fmt.Sprintf("\n%v\n", out))
+	return out, nil
+}
+
+func (p *Profile) exportsFile(key string, opt ...string) ([]map[string]string, error) {
+	out := []map[string]string{}
+	for _, v := range config.GetMap(key) {
+		if _, ok := v.(map[string]interface{}); !ok {
+			continue
+		}
+		for _, v := range v.(map[string]interface{}) {
+			if val, ok := v.(map[string]interface{}); ok {
+				m := map[string]string{}
+				if src, ok := val["src"].(string); ok {
+					m["src"] = src
+				}
+				if dst, ok := val["dst"].(string); ok {
+					m["dst"] = dst
+				}
+				out = append(out, m)
+			}
+
+		}
+
 	}
 	if len(out) == 0 {
 		p.log("No exports found for key: " + key)
