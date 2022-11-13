@@ -141,6 +141,24 @@ func TestProfilePS1Exports(t *testing.T) {
 	}
 }
 
+func TestProfileFileExports(t *testing.T) {
+	err := SetPath(fixtures.Path(".switchcontext"))
+	if err != nil {
+		t.Errorf("Error setting path: %s", err)
+	}
+	e, err := ProfileFileExports("ukprod")
+	if err != nil {
+		t.Errorf("Error getting exports: %s", err)
+	}
+	if e[0]["src"] != "~/.gitconfigIR" {
+		t.Errorf("Unexpected export: %s", e)
+	}
+
+	e, err = ProfileFileExports("usprod")
+	fmt.Println(e, err)
+
+}
+
 func TestPR(t *testing.T) {
 	err := SetPath(fixtures.Path(".switchcontext"))
 	if err != nil {

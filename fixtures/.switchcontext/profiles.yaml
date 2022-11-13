@@ -29,3 +29,12 @@ profiles:
     kube: uk-prod
     bash:
       PS1: '\h:\W (ukp) \u\$'
+    file:
+      copy:
+        git:
+          src: "~/.gitconfigIR"
+          dst: "~/.gitconfig"
+        spud:
+          src: "~/.spud.yamlIR"
+          dst: "~/.spud.yaml"
+
