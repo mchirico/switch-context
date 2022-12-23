@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/mchirico/switch-context/config"
@@ -9,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 var p *Profile
@@ -19,11 +21,13 @@ func init() {
 
 type Profile struct {
 	path string
+	last string
 }
 
 func New() *Profile {
 	p := &Profile{
 		path: filepath.Join(HomeDirectory(), ".switchcontext/profiles.yaml"),
+		last: filepath.Join(HomeDirectory(), ".switchcontext/lastUsed.json"),
 	}
 	config.SetPath(p.path)
 	return p
@@ -41,6 +45,37 @@ func (p *Profile) log(msg string) {
 	logger.Log(msg)
 }
 
+type Last struct {
+	Key       string `json:"key"`
+	TimeEnter string `json:"time_enter"`
+}
+
+func (p *Profile) putLastUsed(key string) error {
+	l := &Last{Key: key, TimeEnter: time.Now().Format(time.RFC3339)}
+	fmt.Println(l)
+	data, err := json.Marshal(l)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(p.last, data, 0644)
+}
+
+func LastKey() (string, error) {
+	return p.lastUsed()
+}
+
+func (p *Profile) lastUsed() (string, error) {
+	data, err := os.ReadFile(p.last)
+	if err != nil {
+		return "", err
+	}
+	l := &Last{}
+	err = json.Unmarshal(data, l)
+	if err != nil {
+		return "", err
+	}
+	return l.Key, nil
+}
 func PR(key string) (string, error) {
 	out := ""
 	env, err := ProfileEnvExports(key)
@@ -58,6 +93,7 @@ func PR(key string) (string, error) {
 	if err != nil {
 		return out, err
 	}
+	_ = p.putLastUsed(key)
 	for _, v := range env {
 		fmt.Print(v)
 		out += v
@@ -109,6 +145,7 @@ func profilesAvailable() []string {
 	return out
 }
 
+// TODO: Save last profile used
 func ProfileEnvExports(key string) ([]string, error) {
 	p.log("ProfileEnvExports: profiles." + key + ".env")
 	return p.exports("profiles." + key + ".env")
