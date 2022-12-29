@@ -5,11 +5,11 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/mchirico/switch-context/constants"
 	"github.com/mchirico/switch-context/profile"
-	"os"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -31,8 +31,19 @@ and kubernetes contexts. (version: %s)
 			profile.SetPath(scFile)
 
 			profiles := profile.ProfilesAvailable()
-			for _, p := range profiles {
-				fmt.Printf("  %s\n", p)
+			last, err := profile.LastKey()
+			if err != nil {
+				for _, p := range profiles {
+					fmt.Printf("  %s\n", p)
+				}
+			} else {
+				for _, p := range profiles {
+					if p == last {
+						color.Red("  %s\n", p)
+					} else {
+						fmt.Printf("  %s\n", p)
+					}
+				}
 			}
 			return
 		}

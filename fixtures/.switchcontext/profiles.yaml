@@ -32,8 +32,8 @@ profiles:
     file:
       copy:
         git:
-          src: "~/.gitconfigIR"
-          dst: "~/.gitconfig"
+          src: "~/.gitconfigSomeTestConfig"
+          dst: "~/.gitconfigDestination"
         spud:
           src: "~/.spud.yamlIR"
           dst: "~/.spud.yaml"

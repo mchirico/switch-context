@@ -150,7 +150,10 @@ func TestProfileFileExports(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error getting exports: %s", err)
 	}
-	if e[0]["src"] != "~/.gitconfigIR" {
+	if e[0]["src"] != "~/.gitconfigSomeTestConfig" {
+		t.Errorf("Unexpected export: %s", e)
+	}
+	if e[0]["dst"] != "~/.gitconfigDestination" {
 		t.Errorf("Unexpected export: %s", e)
 	}
 
@@ -183,5 +186,20 @@ func Test_ListAllProfiles(t *testing.T) {
 	}
 	if count != 2 {
 		t.Errorf("Expected 2 profiles, got %d", count)
+	}
+}
+
+func TestProfile_putLastUsed(t *testing.T) {
+	p := &Profile{last: fixtures.Path(".switchcontext/last")}
+	err := p.putLastUsed("usprod")
+	if err != nil {
+		t.Errorf("Error setting last used: %s", err)
+	}
+	key, err := p.lastUsed()
+	if err != nil {
+		t.Errorf("Error getting last used: %s", err)
+	}
+	if key != "usprod" {
+		t.Errorf("Expected usprod, got %s", key)
 	}
 }
