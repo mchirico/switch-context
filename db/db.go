@@ -3,6 +3,7 @@ package db
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/mchirico/switch-context/constants"
 	"github.com/mchirico/switch-context/fixtures"
 	"os"
 	"time"
@@ -113,8 +114,13 @@ func (d *DBControler) GetS(key string) string {
 	if result == 0 {
 		return ""
 	}
-	if result.Hours() > 4 {
+	if result.Hours() > constants.HOURS_BEFORE_EXPIRE {
 		return ""
 	}
+
+	if result.Hours() > constants.HOURS_BEFORE_WARN {
+		return fmt.Sprintf("Warning: %s about to expire", result.String())
+	}
+
 	return result.String()
 }
