@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/mchirico/switch-context/constants"
+	"github.com/mchirico/switch-context/db"
 	"github.com/mchirico/switch-context/logger"
 	"github.com/mchirico/switch-context/profile"
 	"github.com/mchirico/switch-context/shell"
@@ -36,14 +37,14 @@ and kubernetes contexts. (version: %s)
 			last, err := profile.LastKey()
 			if err != nil {
 				for _, p := range profiles {
-					fmt.Printf("  %s\n", p)
+					fmt.Printf("  %s \t\t%s\n", p, db.C.GetS(p))
 				}
 			} else {
 				for _, p := range profiles {
 					if p == last {
-						color.Red("  %s\n", p)
+						color.Red("  %s \t\t%s\n", p, db.C.GetS(p))
 					} else {
-						fmt.Printf("  %s\n", p)
+						fmt.Printf("  %s \t\t%s\n", p, db.C.GetS(p))
 					}
 				}
 			}
@@ -52,11 +53,17 @@ and kubernetes contexts. (version: %s)
 
 		// login is special
 		if args[0] == "login" {
+
 			_, sterr, err := shell.Shellout("aws sso login")
 			if err != nil || sterr != "" {
 				logger.Log("Error: aws sso login\n" + err.Error() + sterr)
 				fmt.Fprintf(os.Stderr, "%s\n", sterr)
 				return
+			}
+
+			// login time to DB
+			if last, err := profile.LastKey(); err == nil {
+				db.C.Add(last)
 			}
 
 			logger.Log("aws sso login")

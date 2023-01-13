@@ -1,6 +1,7 @@
 package fixtures
 
 import (
+	"os"
 	"path/filepath"
 	"runtime"
 )
@@ -22,4 +23,9 @@ func Path(rel string) string {
 	}
 
 	return filepath.Join(basepath, rel)
+}
+
+func HomeDirectory() (string, error) {
+	home, err := os.UserHomeDir()
+	return home, err
 }
