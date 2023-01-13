@@ -184,6 +184,10 @@ func Test_ListAllProfiles(t *testing.T) {
 		}
 		t.Logf("%s", v)
 	}
+	if profiles[0] != "ukprod" {
+		t.Fatalf("Expected ukprod to be first")
+	}
+
 	if count != 2 {
 		t.Errorf("Expected 2 profiles, got %d", count)
 	}
