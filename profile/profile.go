@@ -9,6 +9,7 @@ import (
 	"github.com/mchirico/switch-context/logger"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 )
@@ -142,6 +143,9 @@ func profilesAvailable() []string {
 	for k := range m {
 		out = append(out, k)
 	}
+	sort.Slice(out, func(i, j int) bool {
+		return out[i] < out[j]
+	})
 	return out
 }
 
