@@ -150,11 +150,17 @@ func TestProfileFileExports(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error getting exports: %s", err)
 	}
+	// Maps may mix up order
 	if e[0]["src"] != "~/.gitconfigSomeTestConfig" {
-		t.Errorf("Unexpected export: %s", e)
+		if e[1]["src"] != "~/.gitconfigSomeTestConfig" {
+			t.Errorf("Unexpected export: %s", e)
+		}
+
 	}
 	if e[0]["dst"] != "~/.gitconfigDestination" {
-		t.Errorf("Unexpected export: %s", e)
+		if e[1]["dst"] != "~/.gitconfigDestination" {
+			t.Errorf("Unexpected export: %s", e)
+		}
 	}
 
 	e, err = ProfileFileExports("usprod")
