@@ -7,7 +7,9 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/mchirico/switch-context/constants"
+	"github.com/mchirico/switch-context/logger"
 	"github.com/mchirico/switch-context/profile"
+	"github.com/mchirico/switch-context/shell"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -47,6 +49,20 @@ and kubernetes contexts. (version: %s)
 			}
 			return
 		}
+
+		// login is special
+		if args[0] == "login" {
+			_, sterr, err := shell.Shellout("aws sso login")
+			if err != nil || sterr != "" {
+				logger.Log("Error: aws sso login\n" + err.Error() + sterr)
+				fmt.Fprintf(os.Stderr, "%s\n", sterr)
+				return
+			}
+
+			logger.Log("aws sso login")
+			return
+		}
+
 		if d, err := profile.PR(args[0]); err != nil {
 			fmt.Println(err)
 			os.Exit(1)
