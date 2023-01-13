@@ -51,6 +51,12 @@ and kubernetes contexts. (version: %s)
 			return
 		}
 
+		// version is special
+		if args[0] == "version" {
+			fmt.Println(constants.VERSION)
+			return
+		}
+
 		// login is special
 		if args[0] == "login" {
 

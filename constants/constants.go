@@ -1,3 +1,7 @@
 package constants
 
-const VERSION = "0.0.6"
+const (
+	VERSION             = "0.0.7"
+	HOURS_BEFORE_EXPIRE = 4
+	HOURS_BEFORE_WARN   = HOURS_BEFORE_EXPIRE - 1
+)
