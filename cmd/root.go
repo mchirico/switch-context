@@ -73,6 +73,10 @@ and kubernetes contexts. (version: %s)
 			}
 
 			logger.Log("aws sso login")
+
+			// Need this to write .aws/cli/cache/HEC.json
+			_, _, _ = shell.Shellout("aws sts get-caller-identity")
+
 			return
 		}
 
