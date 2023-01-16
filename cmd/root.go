@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/cwxstat/aws-sync-creds/cache"
 	"github.com/fatih/color"
 	"github.com/mchirico/switch-context/constants"
 	"github.com/mchirico/switch-context/db"
@@ -77,7 +78,9 @@ and kubernetes contexts. (version: %s)
 
 			// Need this to write .aws/cli/cache/HEC.json
 			_, _, _ = shell.Shellout("aws sts get-caller-identity")
-			_ = creds.Sync()
+
+			// This is sync creds
+			_ = cache.Sync()
 			return
 		}
 
