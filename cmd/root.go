@@ -12,6 +12,7 @@ import (
 	"github.com/mchirico/switch-context/profile"
 	"github.com/mchirico/switch-context/shell"
 	"github.com/spf13/cobra"
+
 	"os"
 )
 
@@ -76,7 +77,7 @@ and kubernetes contexts. (version: %s)
 
 			// Need this to write .aws/cli/cache/HEC.json
 			_, _, _ = shell.Shellout("aws sts get-caller-identity")
-
+			_ = creds.Sync()
 			return
 		}
 
