@@ -11,6 +11,7 @@ import (
 	"github.com/mchirico/switch-context/logger"
 	"github.com/mchirico/switch-context/profile"
 	"github.com/mchirico/switch-context/shell"
+	"github.com/mchirico/switch-context/sts"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -51,9 +52,15 @@ and kubernetes contexts. (version: %s)
 			return
 		}
 
+		// sts is special
+		if args[0] == "sts" {
+			sts.Pr()
+			return
+		}
+
 		// version is special
 		if args[0] == "version" {
-			fmt.Println(constants.VERSION)
+			fmt.Fprintf(os.Stderr, "Version: %s\n", constants.VERSION)
 			return
 		}
 
